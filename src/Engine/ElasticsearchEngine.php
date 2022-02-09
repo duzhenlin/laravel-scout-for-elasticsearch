@@ -35,7 +35,6 @@ class ElasticsearchEngine extends Engine
     public function update($models)
     {
         $params['body'] = [];
-
         $models->each(function ($model) use (&$params) {
             $type             = $model->searchableAs();
             $index            = config('scout.elasticsearch.prefix') . $type;
@@ -47,12 +46,14 @@ class ElasticsearchEngine extends Engine
                 ]
             ];
             $doc              = collect($model->toSearchableArray())->except(['created_at', 'updated_at', 'deleted_at']);
+            $doc              = $doc->map(function ($item) {
+                return is_array($item) ? json_encode($item, JSON_UNESCAPED_UNICODE) : $item;
+            });
             $params['body'][] = [
                 'doc'           => $doc,
                 'doc_as_upsert' => true
             ];
         });
-
         $this->elastic->bulk($params);
     }
 
