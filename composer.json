@@ -1,0 +1,28 @@
+{
+  "name": "duzhenlin/laravel-scout-for-elasticsearch",
+  "description": "Elasticsearch Driver for Laravel Scout",
+  "authors": [
+    {
+      "name": "杜震霖",
+      "email": "duzhenlin@vip.qq.com"
+    }
+  ],
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Duzhenlin\\LaravelScoutForElasticsearch\\": "src/"
+    }
+  },
+  "require": {
+    "laravel/scout": "^7.1 | ^8.0",
+    "elasticsearch/elasticsearch": "^6.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Duzhenlin\\LaravelScoutForElasticsearch\\ElasticsearchServiceProvider"
+      ]
+    }
+  }
+}
