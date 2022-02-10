@@ -13,13 +13,14 @@ trait ElasticsearchClientTrait
      */
     public function getElasticsearchClient()
     {
-        $hosts = [
+        $hosts            = [
             'host'   => config('scout.elasticsearch.host'),
             'port'   => config('scout.elasticsearch.port'),
             'scheme' => config('scout.elasticsearch.scheme'),
         ];
-        $user  = config('scout.elasticsearch.user');
-        $pass  = config('scout.elasticsearch.pass');
+        $user             = config('scout.elasticsearch.user');
+        $pass             = config('scout.elasticsearch.pass');
+        $ssl_verification = config('scout.elasticsearch.ssl_verification');
 
         if ($user !== null) {
             $hosts['user'] = $user;
@@ -30,6 +31,7 @@ trait ElasticsearchClientTrait
         }
 
         return ClientBuilder::create()
+            ->setSSLVerification($ssl_verification)
             ->setHosts([$hosts])
             ->build();
     }
