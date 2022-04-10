@@ -45,7 +45,10 @@ class ElasticsearchEngine extends Engine
                     '_type'  => $type,
                 ]
             ];
-            $doc              = collect($model->toSearchableArray())->except(['created_at', 'updated_at', 'deleted_at']);
+            $doc              = collect($model->toSearchableArray());
+            if (config('scout.elasticsearch.except_time')) {
+                $doc = $doc->except(['created_at', 'updated_at', 'deleted_at']);
+            }
             $doc              = $doc->map(function ($item) {
                 return is_array($item) ? json_encode($item, JSON_UNESCAPED_UNICODE) : $item;
             });
